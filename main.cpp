@@ -61,7 +61,7 @@ int main() {
     }
     cout << endl;
 
-    cout << "\nHistorial de renta de libros: ";
+    cout << "\nHistorial de renta de libros: " << endl;
     for (const string& book : member.get_rented_history()) {
         cout << book << ", ";
     }
