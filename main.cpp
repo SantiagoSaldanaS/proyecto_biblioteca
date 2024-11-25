@@ -1,71 +1,79 @@
 // Santiago Saldaña Subías - A01708446 (08/11/2024)
 
-#include <iostream>
-#include "Author.h"
-#include "Member.h"
-#include "Book.h"
+# include <iostream>
+# include "Library.h"
 
 using namespace std;
 
-int main() {
-    // Test Author class
-    Author author("J.K. Rowling", 0);
-    cout << "Autor creado: " << endl;
-    author.show_info();
+int main(){
+    Library library;
 
-    cout << "\nAnadiendo libros al autor..." << endl;
-    author.add_book("Harry Potter and the Philosopher's Stone");
-    author.add_book("Harry Potter and the Chamber of Secrets");
-    author.add_book("Harry Potter and the Prisoner of Azkaban");
+    cout << endl << "======================================================================" << endl << endl;
 
-    cout << "\nInformacion del autor tras crear libros: " << endl;
-    author.show_info();
+    // Anadir libros y autores
+    cout << "Anadiendo libros y autores..." << endl;
+    library.add_book("1984", "Distopia", "Una historia sobre la vigilancia y el control gubernamental.", "George Orwell", 328);
+    library.add_book("Animal Farm", "Satira", "Una critica a los regimenes totalitarios.", "George Orwell", 112);
+    library.add_book("Harry Potter y la Piedra Filosofal", "Fantasia", "Un nino descubre que es un mago.", "J.K. Rowling", 223);
+    library.add_book("Cien Anos de Soledad", "Realismo Magico", "La saga de la familia Buendia.", "Gabriel Garcia Marquez", 417);
 
-    cout << "\nEliminando libros del autor..." << endl;
-    author.remove_book("Harry Potter and the Chamber of Secrets");
-    author.show_info();
+    // Mostrar todos los autores
+    cout << "\nAutores en la biblioteca:" << endl;
+    library.show_authors();
 
-    cout << "\nBorrando todos los libros del autor..." << endl;
-    author.delete_all_books();
-    author.show_info();
+    // Mostrar todos los libros
+    cout << "\nLibros en la biblioteca:" << endl;
+    library.show_books();
 
-    // Test Book class
-    Book book("1984", "Dystopian", "A story about surveillance and government control.", 
-              "John Doe", "George Orwell", 328, 50);
+    // Anadir miembros
+    cout << "\nAnadiendo miembros..." << endl;
+    library.add_member("Juan Perez");
+    library.add_member("Ana Garcia");
+    library.add_member("Carlos Ruiz");
 
-    cout << "\nLibro creado: " << endl;
-    book.show_info();
+    // Mostrar miembros
+    cout << "\nMiembros de la biblioteca:" << endl;
+    library.show_members();
 
-    cout << "\nActualizando el numero de rentas..." << endl;
-    book.set_last_rented("Jane Doe");
-    book.set_number_of_rents(book.get_number_of_rents() + 1);
-    book.show_info();
+    // Rentar un libro a un miembro
+    cout << "\nRentando un libro a Juan Perez." << endl;
+    library.rent_book_to_member("1984", "Juan Perez");
 
-    // Test Member class
-    Member member("Alice Johnson");
-    cout << "\nMiembro creado: " << endl;
-    member.show_info();
+    // Mostrar libros despues de rentar
+    cout << "\nLibros despues de rentar:" << endl;
+    library.show_books();
 
-    cout << "\nAnadiendo libros rentados al miembro..." << endl;
-    member.rent_book("1984");
-    member.rent_book("Brave New World");
-    member.show_info();
+    // Intentar rentar un libro que no existe
+    cout << "\nIntentando rentar un libro inexistente:" << endl;
+    library.rent_book_to_member("Libro Inexistente", "Ana Garcia");
 
-    cout << "\nEliminando libro rentado del miembro..." << endl;
-    member.return_book("1984");
-    member.show_info();
+    // Mostrar miembros despues de rentar
+    cout << "\nMiembros despues de rentar libros:" << endl;
+    library.show_members();
 
-    cout << "\nLibros actualmente rentados:" << endl;
-    for (const string& book : member.get_current_books()) {
-        cout << book << ", ";
-    }
-    cout << endl;
+    // Eliminar un libro y verificar
+    cout << "\nEliminando el libro 'Animal Farm'..." << endl;
+    library.delete_book("Animal Farm");
+    library.show_books();
 
-    cout << "\nHistorial de renta de libros: " << endl;
-    for (const string& book : member.get_rented_history()) {
-        cout << book << ", ";
-    }
-    cout << endl;
+    // Eliminar un autor y verificar
+    cout << "\nEliminando el autor 'George Orwell'..." << endl;
+    library.delete_author("George Orwell");
+    library.show_books(); // Los libros de 'George Orwell' ahora deberian tener autor 'Desconocido'
+
+    // Cambiar el nombre de un autor
+    cout << "\nCambiando el nombre del autor 'J.K. Rowling' a 'Joanne Rowling'..." << endl;
+    library.update_author_name("J.K. Rowling", "Joanne Rowling");
+    library.show_books(); // Los libros deberian mostrar 'Joanne Rowling' ahora
+
+    // Eliminar un miembro
+    cout << "\nEliminando el miembro 'Ana Garcia'..." << endl;
+    library.delete_member("Ana Garcia");
+    library.show_members(); // 'Ana Garcia' ya no deberia aparecer
+
+    // Intentar rentar un libro con un miembro eliminado
+    cout << "\nIntentando rentar un libro a un miembro eliminado (Carlos Ruiz):" << endl;
+    library.rent_book_to_member("Harry Potter y la Piedra Filosofal", "Carlos Ruiz");
 
     return 0;
 }
